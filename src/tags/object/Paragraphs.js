@@ -398,6 +398,32 @@ class HtxParagraphsView extends Component {
         el.style.visibility = "unset";
       });
       return [];
+    } else {
+      const r = document.createRange();
+
+      r.setStart(selection.anchorNode, selection.anchorOffset);
+      r.setEnd(selection.focusNode, selection.focusOffset);
+      const backwards = r.collapsed;
+
+      r.detach();
+
+      const endNode = selection.focusNode, endOffset = selection.focusOffset;
+
+      selection.collapse(selection.anchorNode, selection.anchorOffset);
+      if (backwards) {
+        selection.modify("move", "backward", "character");
+        selection.modify("move", "forward", "word");
+        selection.extend(endNode, endOffset);
+        selection.modify("extend", "forward", "character");
+        selection.modify("extend", "backward", "word");
+
+      } else {
+        selection.modify("move", "forward", "character");
+        selection.modify("move", "backward", "word");
+        selection.extend(endNode, endOffset);
+        selection.modify("extend", "backward", "character");
+        selection.modify("extend", "forward", "word");
+      }
     }
 
     for (i = 0; i < selection.rangeCount; i++) {
@@ -437,7 +463,7 @@ class HtxParagraphsView extends Component {
     // underlying text as a result. So here we remove the selected ranges and
     // reapply the new ones.
     selection.removeAllRanges();
-
+    console.log(ranges);
     return ranges;
   }
 
