@@ -463,7 +463,6 @@ class HtxParagraphsView extends Component {
     // underlying text as a result. So here we remove the selected ranges and
     // reapply the new ones.
     selection.removeAllRanges();
-    console.log(ranges);
     return ranges;
   }
 
