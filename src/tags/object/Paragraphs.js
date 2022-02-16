@@ -407,7 +407,8 @@ class HtxParagraphsView extends Component {
 
       r.detach();
 
-      const endNode = selection.focusNode, endOffset = selection.focusOffset;
+      const endNode = selection.focusNode,
+        endOffset = selection.focusOffset;
 
       selection.collapse(selection.anchorNode, selection.anchorOffset);
       if (backwards) {
@@ -416,7 +417,6 @@ class HtxParagraphsView extends Component {
         selection.extend(endNode, endOffset);
         selection.modify("extend", "forward", "character");
         selection.modify("extend", "backward", "word");
-
       } else {
         selection.modify("move", "forward", "character");
         selection.modify("move", "backward", "word");
@@ -466,7 +466,7 @@ class HtxParagraphsView extends Component {
     return ranges;
   }
 
-  _selectRegions = (additionalMode) => {
+  _selectRegions = additionalMode => {
     const { item } = this.props;
     const root = this.myRef.current;
     const selection = window.getSelection();
@@ -505,7 +505,8 @@ class HtxParagraphsView extends Component {
     const item = this.props.item;
     const states = item.activeStates();
 
-    if (!states || states.length === 0 || ev.ctrlKey || ev.metaKey) return this._selectRegions(ev.ctrlKey || ev.metaKey);
+    if (!states || states.length === 0 || ev.ctrlKey || ev.metaKey)
+      return this._selectRegions(ev.ctrlKey || ev.metaKey);
 
     const selectedRanges = this.captureDocumentSelection();
 
@@ -635,14 +636,15 @@ const Phrases = observer(({ item }) => {
   if (!item._value) return null;
 
   const val = item._value.map((v, idx) => {
-    const style = item.layoutStyles(v);
+    //const style = item.layoutStyles(v);
     const classNames = [styles.phrase];
 
     if (withAudio) classNames.push(styles.withAudio);
     if (getRoot(item).settings.showLineNumbers) classNames.push(styles.numbered);
+    if (v.class !== undefined) classNames.push(v.class);
 
     return (
-      <div key={`${item.name}-${idx}`} className={classNames.join(" ")} style={style.phrase}>
+      <div key={`${item.name}-${idx}`} className={classNames.join(" ")} style={v?.style}>
         {withAudio && !isNaN(v.start) && (
           <Button
             type="text"
