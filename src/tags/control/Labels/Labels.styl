@@ -1,12 +1,15 @@
 .labels
-  margin 1em 0
+  marginx 20px 0
   display flex
   justify-content flex-start
   align-items center
   flex-flow wrap
-  position absolute
-  top -52px
-  right 300px
+  position fixed
+  top 96px
+  z-index 120
+  background white
+  width calc(100% - 320px)
+  padding-top 10px
 
   &_hidden
     display none
@@ -15,4 +18,3 @@
     margin 0
     flex-direction column
     align-items flex-start
-
